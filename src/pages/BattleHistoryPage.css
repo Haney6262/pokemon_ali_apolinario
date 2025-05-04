@@ -1,0 +1,584 @@
+.battle-history-page {
+  min-height: 100vh;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.battle-history-page.page-loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.history-title {
+  position: relative;
+  display: inline-block;
+  color: var(--pokemon-red);
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.history-title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background-color: var(--pokemon-yellow);
+  border-radius: 2px;
+}
+
+.history-description {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 2rem auto;
+  color: var(--text-secondary);
+}
+
+.stats-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .stats-summary {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: var(--card-shadow);
+  border-top: 5px solid var(--pokemon-blue);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--hover-shadow);
+}
+
+.stat-card.win {
+  border-top-color: #10b981;
+}
+
+.stat-card.loss {
+  border-top-color: #ef4444;
+}
+
+.stat-card.win .stats-value {
+  color: #10b981;
+}
+
+.stat-card.loss .stats-value {
+  color: #ef4444;
+}
+
+.stats-value {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.history-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .history-container {
+    flex-direction: row;
+  }
+}
+
+.battle-list {
+  flex: 1;
+  background-color: white;
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  border-top: 5px solid var(--pokemon-blue);
+}
+
+.battle-list h2 {
+  margin-bottom: 1.5rem;
+  color: var(--pokemon-blue);
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.battle-list h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: var(--pokemon-yellow);
+  border-radius: 50%;
+}
+
+.battle-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.battle-items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.battle-items::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.battle-items::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.battle-items::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+.battle-item {
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius-md);
+  padding: 1.25rem;
+  cursor: pointer;
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.battle-item:hover {
+  border-color: var(--pokemon-blue);
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow);
+}
+
+.battle-item.active {
+  border-color: var(--pokemon-blue);
+  border-width: 2px;
+  background-color: rgba(59, 76, 202, 0.05);
+}
+
+.battle-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.battle-date {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.battle-result {
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-xl);
+}
+
+.battle-result.win {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.battle-result.loss {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.battle-teams {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.battle-team-preview {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.team-preview-img-container {
+  width: 35px;
+  height: 35px;
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.team-preview-img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.more-pokemon {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-left: 0.25rem;
+}
+
+.vs-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--pokemon-yellow);
+  background-color: rgba(255, 222, 0, 0.1);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.battle-details {
+  flex: 2;
+  background-color: white;
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  border-top: 5px solid var(--pokemon-red);
+}
+
+.battle-details h2 {
+  margin-bottom: 1.5rem;
+  color: var(--pokemon-red);
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.battle-details h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: var(--pokemon-yellow);
+  border-radius: 50%;
+}
+
+.battle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.battle-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.info-label {
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-right: 0.5rem;
+}
+
+.teams-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .teams-comparison {
+    flex-direction: row;
+  }
+}
+
+.team-column {
+  flex: 1;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+}
+
+.team-column h3 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--pokemon-blue);
+}
+
+.team-column:last-child h3 {
+  color: var(--pokemon-red);
+}
+
+.team-pokemon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.team-pokemon-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.team-pokemon-img-container {
+  width: 40px;
+  height: 40px;
+  background-color: #f3f4f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.team-pokemon-row img {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+}
+
+.team-pokemon-row span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  flex: 1;
+}
+
+.pokemon-types.small {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.pokemon-types.small .type-badge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.5rem;
+}
+
+.battle-log-summary {
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+}
+
+.battle-log-summary h3 {
+  margin-bottom: 1.5rem;
+  color: var(--pokemon-blue);
+  text-align: center;
+}
+
+.battle-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.empty-history {
+  text-align: center;
+  padding: 3rem;
+  background-color: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--card-shadow);
+  margin: 2rem 0;
+}
+
+.empty-history-icon {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(59, 76, 202, 0.1);
+  color: var(--pokemon-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 1.5rem;
+}
+
+.empty-history p {
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Add these new styles for the improved BattleHistoryPage */
+.filter-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--border-radius-lg);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: var(--text-secondary);
+}
+
+.filter-btn:hover {
+  background-color: #e5e7eb;
+}
+
+.filter-btn.active {
+  background-color: var(--pokemon-blue);
+  color: white;
+  border-color: var(--pokemon-blue);
+}
+
+.filter-btn.win.active {
+  background-color: #10b981;
+  border-color: #10b981;
+}
+
+.filter-btn.loss.active {
+  background-color: #ef4444;
+  border-color: #ef4444;
+}
+
+.battle-list-container {
+  width: 100%;
+}
+
+.battle-details-container {
+  width: 100%;
+}
+
+.back-to-list-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  background-color: #cf3030;
+  /* Red background */
+  color: white;
+  /* Text color */
+  border: 1px solid #e5e7eb;
+  /* Light border */
+  border-radius: var(--border-radius-lg);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  /* Slightly slower transition */
+}
+
+.back-to-list-btn:hover {
+  background-color: #f8fafc;
+  /* Lighter background on hover */
+  color: #cf3030;
+  /* Text color changes to red on hover */
+  border-color: #cf3030;
+  /* Border color changes to match the button */
+}
+
+
+.no-battles-message {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius-lg);
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+}
+
+/* Make the battle list take full width on mobile */
+@media (max-width: 991px) {
+
+  .battle-list,
+  .battle-details {
+    width: 100%;
+  }
+}
+
+/* Responsive improvements */
+@media (max-width: 640px) {
+  .filter-buttons {
+    justify-content: center;
+  }
+
+  .filter-btn {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .battle-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .battle-result {
+    align-self: flex-start;
+  }
+
+  .teams-comparison {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-card {
+    padding: 1rem;
+  }
+
+  .stats-value {
+    font-size: 1.75rem;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+  }
+
+  .battle-teams {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .vs-badge {
+    margin: 0 auto;
+  }
+}

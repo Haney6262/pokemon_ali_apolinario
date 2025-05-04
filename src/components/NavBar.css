@@ -1,0 +1,142 @@
+.navbar {
+  border-bottom: 2px solid var(--pokemon-yellow);
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-container {
+  display: flex;
+  height: 4.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  padding-left: 3rem;
+}
+
+.navbar-logo a {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--pokemon-red);
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.logoImage {
+  width: 3.5rem;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.logoImage:hover {
+  transform: scale(1.05);
+  /* Optional: subtle zoom effect */
+}
+
+@media (max-width: 480px) {
+  .logoImage {
+    width: 2.5rem;
+    /* Slightly smaller on very small screens */
+  }
+}
+
+.navbar-links {
+  display: none;
+}
+
+.navbar-links a {
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-left: 2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  color: var(--text-primary);
+}
+
+.navbar-links a:hover {
+  color: var(--pokemon-red);
+  background-color: rgba(238, 107, 47, 0.1);
+}
+
+.menu-button {
+  display: block;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border: 2px solid var(--pokemon-red);
+  border-radius: 2rem;
+  background-color: transparent;
+  color: var(--pokemon-red);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.menu-button:hover {
+  background-color: var(--pokemon-red);
+  color: white;
+}
+
+.navbar-links.active {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 4.5rem;
+  left: 0;
+  right: 0;
+  background-color: white;
+  padding: 1rem;
+  border-bottom: 2px solid var(--pokemon-yellow);
+  z-index: 50;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+.navbar-links.active a {
+  margin: 0.5rem 0;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.navbar-links.active a:hover {
+  background-color: rgba(238, 107, 47, 0.1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-links {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-button {
+    display: none;
+  }
+}
+
+.active-link {
+  color: var(--pokemon-red) !important;
+  /* background-color: rgba(238, 107, 47, 0.1);
+  border-radius: 2rem;
+  padding: 0.5rem 1rem; */
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
